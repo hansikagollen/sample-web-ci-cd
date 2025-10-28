@@ -3,26 +3,23 @@ stages:
   - test
   - deploy
 
-# Stage 1: Build
 build_job:
   stage: build
-  image: node:18
+  image: node:18-alpine
   script:
     - echo "🔧 Starting build stage..."
     - echo "No dependencies to install (no package.json found)."
     - echo "✅ Build stage completed successfully!"
 
-# Stage 2: Test
 test_job:
   stage: test
-  image: node:18
+  image: node:18-alpine
   script:
     - echo "🚀 Running sample test..."
-    - node test.js || echo "⚠️ Skipping test file check (if missing)"
+    - if [ -f test.js ]; then node test.js; else echo "⚠️ No test.js found — skipping test."; fi
   only:
     - branches
 
-# Stage 3: Deploy
 deploy_job:
   stage: deploy
   image: alpine
