@@ -1,0 +1,33 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Stage 1: Build
+build_job:
+  stage: build
+  image: node:18
+  script:
+    - echo "🔧 Installing dependencies..."
+    - npm install
+    - echo "✅ Build stage completed successfully!"
+
+# Stage 2: Test
+test_job:
+  stage: test
+  image: node:18
+  script:
+    - echo "🚀 Running tests..."
+    - node test.js
+  only:
+    - main
+
+# Stage 3: Deploy
+deploy_job:
+  stage: deploy
+  image: alpine
+  script:
+    - echo "📦 Deploying the application..."
+    - echo "Application deployed successfully!"
+  only:
+    - main
